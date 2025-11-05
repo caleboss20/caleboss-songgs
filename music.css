@@ -9,6 +9,17 @@ body{
     /* height: 200vh; */
 }
 
+.top-navbar-music{
+  position: fixed;
+  top:0;
+  left:0px;
+  height: 70px;
+  right:0px;
+  z-index: 100;
+  /* background-color: red; */
+}
+
+
 .Music-player{
  background-color: blue;
  width:100%;
@@ -28,6 +39,7 @@ body{
     padding-left: 15px;
 
 }
+
 nav{
     display: flex;
     /* justify-content: space-between; */
@@ -36,11 +48,11 @@ nav{
     margin-top: 10px;
 }
 nav svg{
-    margin-left: 35%;
+    margin-left: 32%;
 }
 nav strong{
-    font-size: 30px;
-    margin-top: 2px;
+    font-size: 1.7rem;
+    margin-top: 5px;
 }
 .profile-container{
      width:40px;
@@ -373,7 +385,7 @@ ul li{
     font-size: 0.8rem;
 }
 
-
+/*for te next music page for each song*/
 
 
 
