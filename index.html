@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>React project</title>
 <link rel="stylesheet" href="music.css">
+ <link rel="stylesheet" href="musicplaysection.css">
 </head>
 <body>
 <div class="js-container"></div>
@@ -21,6 +22,9 @@
         const [showoverlay,setShowoverlay]=React.useState(false);
         const [circleoverlay,setCircleoverlay]=React.useState(false); 
         const musicDisplayRef=React.useRef(null);
+        const [Mainmusic,setMainmusic]=React.useState(false);
+        const [playing,setPlaying]=React.useState(false);
+        const audioRef=React.useRef(null);
 
         
     
@@ -29,8 +33,8 @@
             {
                 id:1,
                 image:'img1.jpg',
-                title:'oh merciful Lord',
-                artist:'Joe Mettle' 
+                title:'Gr8',
+                artist:'Samuel Offei' 
             },
             {
                 id:2,
@@ -155,14 +159,23 @@
 
             ]);
 
+          const displayMusic=[
+            {
+               title:'Gr8',
+               image:'n2.jpg',
+               author:'Samuel Offei', 
+               detail:'Album. 16 Aug 2025'
+            }
+        ]
+         
+         
+         
+         
             const handleDelete=(i)=>{
             const newList=[...MusicPlay];
             newList.splice(i,1);
             setMusicPlay(newList);
             }
-        
-
-
 
             const GetUserInput=(e)=>{
                 setmusicvalue(e.target.value);
@@ -200,7 +213,15 @@
 
 
 
-
+            const togglePlay=()=>{
+                if(playing){
+                    audioRef.current.pause();   
+                }
+                else{
+                    audioRef.current.play();
+                }
+                setPlaying(!playing);
+            }
 
 
 
@@ -218,6 +239,12 @@
                 setCircleoverlay={setCircleoverlay}
                 handleDelete={handleDelete}
                 musicDisplayRef ={musicDisplayRef}
+                displayMusic={displayMusic}
+                Mainmusic={Mainmusic}
+                setMainmusic={setMainmusic}
+                togglePlay={togglePlay}
+                audioRef={audioRef}
+                playing={playing}
                 
                 />
 
@@ -232,8 +259,7 @@
             }
 
 
-     
-   
+    
 
 
     function MyMusicsplash(){
@@ -255,35 +281,35 @@
     return(
         <div className="bottom-navbar">
             <div className="nav-link" onClick={()=>setShowoverlay(false)}>
-            <svg width="25px"height="25px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+            <svg width="20px"height="20px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                 </svg>
                 <strong>Home</strong>
         </div>
         
         <div className="nav-link" onClick={()=>setShowoverlay(true)}>
-                <svg width="25px"height="25px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+                <svg width="20px"height="20px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
                 <strong>Search</strong>
             </div>
 
             <div className="nav-link">
-            <svg width="25px"height="25px"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+            <svg width="20px"height="20px"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
             </svg>
                 <strong>Your Library</strong>
             </div>
 
             <div className="nav-link">
-                <svg width="25px"height="25px"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+                <svg width="20px"height="20px"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
                 </svg>
                 <strong>Premium</strong>
             </div>
 
             <div className="nav-link">
-                <svg width="25px"height="25px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+                <svg width="20px"height="20px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
                 <strong>Create</strong>
@@ -293,9 +319,11 @@
     }
 
 
-    function Musify({GetUserInput,musicvalue,filterItems,showoverlay,setShowoverlay,circleoverlay,setCircleoverlay,handleDelete,musicDisplayRef}){
+    function Musify({GetUserInput,musicvalue,filterItems,showoverlay,
+    setShowoverlay,circleoverlay,setCircleoverlay,handleDelete,musicDisplayRef,
+    Mainmusic,setMainmusic,displayMusic,MusicPlay,togglePlay,audioRef,playing}){
     return(
-   <div className="Music-player">
+    <div className="Music-player">
     <nav>
         <div className="profile-container"><img className="profile-img" /><span>C</span></div>
         <strong>Search</strong>
@@ -311,6 +339,7 @@
         <div className="overlay-container"ref={musicDisplayRef}>
             <div className="overlay-input-section">
                 <span className="back-arrow"onClick={()=>setShowoverlay(false)}>&larr;</span>
+                
                 <input
                 onChange={GetUserInput}                
                 placeholder="What do you want to listen to?"/>
@@ -342,17 +371,20 @@
       
              <>  
             <div key={item.id} className="music-Allresults">
-            <div className="music-result">
+            <div className="music-result" onClick={()=>setMainmusic(true)}>
             <img src={item.image} width="50px"height="50px" />
             <div className="music-details">
-                <li key={item.id}><span className="music-title">{item.title}</span>  <br /><span className="artist-name"> {item.artist}...</span></li>
+                <li key={item.id}>
+                    <span className="music-title">{item.title}</span>  <br />
+                    <span className="artist-name"> {item.artist}...</span>
+                    </li>
                 </div>
 
             
                 <span className="music-close-btn"onClick={()=>handleDelete(i)}>&times;</span> 
             </div>
             </div>
-        </>
+             </>
             )
         ):
         <li>
@@ -369,8 +401,111 @@
 
                 </div> :null}
             
+        
+            {Mainmusic? <div className="music-page">
+                <div className="top-navbar-music">
+                <span className="back-arrow"
+                onClick={()=>setMainmusic(false)}>&larr;
+                </span>
+                </div>
+
+            <div className="img-section">
+                {
+                    displayMusic.map((item)=>{
+                    return(
+                        <img className="main-music-image" src={item.image} />
+                    )
+                })  
+                }
+            </div>
+
+            <div className="music-display-description">
+                {
+                displayMusic.map((item)=>{
+                    return(
+                        <>
+                        <h2>{item.title}</h2>
+                        <div className="des-group-detail">
+                        <img className="music-image" src={item.image} />
+                        <strong>{item.author}</strong>
+                        </div>
+                        <p>{item.detail}</p>
+                        </>
+                    )
+                })
+                }
+            </div>
             
-            <input
+            <div className="playsong-description">
+                 {
+                    displayMusic.map((item)=>{
+                    return(
+                    <>
+                        
+                    <img className="music-image" src={item.image} />
+                     <div className="song-btn"onClick={togglePlay}>
+                        {playing?<span className="pause-icon">&#9208;</span>:<span className="play-icon">&#9658;</span>}
+                    
+                   
+                    <audio ref={audioRef} src="sammy2.mp3"></audio>
+                    </div>
+                   </> )
+                   })  
+                }
+                
+            </div>
+
+                <div className="bottom-navbar">
+        <div className="nav-link" onClick={()=>setShowoverlay(false)}>
+        <svg width="25px"height="25px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+            <strong>Home</strong>
+        </div>
+        
+        <div className="nav-link" onClick={()=>setShowoverlay(true)}>
+                <svg width="25px"height="25px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+                <strong>Search</strong>
+            </div>
+
+            <div className="nav-link">
+            <svg width="25px"height="25px"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
+            </svg>
+                <strong>Your Library</strong>
+            </div>
+
+            <div className="nav-link">
+                <svg width="25px"height="25px"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
+                </svg>
+                <strong>Premium</strong>
+            </div>
+
+            <div className="nav-link">
+                <svg width="25px"height="25px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+                <strong>Create</strong>
+            </div>
+        </div>
+
+                    
+                    
+                    </div> :null}
+
+           
+           
+           
+           
+           
+           
+           
+           
+           
+                    <input
             onFocus={()=>setShowoverlay(true)}
             
             className="input-box"
@@ -444,8 +579,8 @@
 
 
 
-    </div>
-</div>           
+        </div>
+      </div>           
             )
             }
 
